@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+body {
+  background-color: #131619;
+  margin-left: 30%;
+  margin-right: 30%;
+  padding: 0;
+  font-family: "Consolas";
+}
+
+h1 {
+	font-size: 30px;
+	color: white;
+	font-weight: 550;
+}
+
+h2 {
+	font-size: 18px;
+	color: white;
+	font-weight: lighter;
+}
+
+p { 
+	writing-mode: tb-rl;
+	display: inline-block;
+	text-align: left;
+}
+
+.customButton {
+    background-color: #CC0720;
+    border: none;
+    color: white;
+    width: 200px;
+    height: 60px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-family: consolas;
+    font-weight: bolder;
+}
+
+.dropdownButton {
+	background-color: #040409;
+    border: none;
+    color: white;
+    width: 200px;
+    height: 60px;
+}
+
+.dropdownButtonItem {
+	background-color: #040409;
+    border: none;
+    color: white;
+    width: 200px;
+    height: 60px;
+    opacity: 0.8;
+    transition: opacity .2s;
+}
+
+.dropdownButtonItem:hover {
+	opacity: 0.98;
+	border-style: inset;
+	border-width: 1px;
+	border-color: white;
+}
+
+#onTop {
+  position: absolute;
+}
