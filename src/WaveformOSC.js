@@ -1,5 +1,5 @@
 import React from 'react';
-import * as synth from './synthesiserSounds.js';
+import * as synth from './SynthEngine';
 import './index.css';
 
 

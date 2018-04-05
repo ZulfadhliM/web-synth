@@ -1,5 +1,4 @@
 import React from 'react';
-import * as synth from './synthesiserSounds.js';
 import PlaySynthButton from './PlaySynthButton';
 import WaveformLFO from './WaveformLFO';
 import WaveformOSC from './WaveformOSC';
@@ -34,10 +33,8 @@ class App extends React.Component {
           <tr>
             <td></td>
             <td><PlaySynthButton /></td>
-
           </tr>
         </table>
-        
         
       </div>);
   }

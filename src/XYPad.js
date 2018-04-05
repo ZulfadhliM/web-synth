@@ -1,5 +1,5 @@
 import React from 'react';
-import * as synth from './synthesiserSounds.js';
+import * as synth from './SynthEngine';
 import './index.css';
 
 class XYPad extends React.Component {
@@ -9,7 +9,7 @@ class XYPad extends React.Component {
       circlePos: [this.props.width/2, this.props.height/2],
       prevCirclePos: [this.props.width/2, this.props.height/2],
       startMove: false,
-      oscFreqRange: [200, 5000],
+      oscFreqRange: [50, 5000],
       lfoFreqRange: [200, 10]
     };
     this.handleMouseEvent = this.handleMouseEvent.bind(this);

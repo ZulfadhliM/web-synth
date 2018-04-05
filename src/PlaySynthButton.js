@@ -1,8 +1,9 @@
 import React from 'react';
-import * as synth from './synthesiserSounds.js';
 import './index.css';
+import * as synth from './SynthEngine'
 
 class PlaySynthButton extends React.Component {
+
   constructor(props) {
   	super(props);
   	this.state = {isSynthPlaying: false};
@@ -13,7 +14,7 @@ class PlaySynthButton extends React.Component {
   	this.setState(prevState => ({
   		isSynthPlaying: !prevState.isSynthPlaying
   	}));
-  	synth.buttonClicked()
+  	synth.buttonClicked();
   }
 
   render() {
