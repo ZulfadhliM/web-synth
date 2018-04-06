@@ -1,31 +1,25 @@
 import React from 'react';
-import * as synth from './SynthEngine';
+import { connect } from 'react-redux';
+import { changeOSCType } from './actions';
 import './index.css';
-
 
 class WaveformOSC extends React.Component {
   constructor(props) {
     super(props);
-
     this.showMenu = this.showMenu.bind(this);
     this.closeMenu = this.closeMenu.bind(this);
     this.waveformClicked = this.waveformClicked.bind(this);
     this.state = {
       dropdownOpen: false,
-      waveform: 'sine'
     };
   }
 
   waveformClicked(type) {
-    this.setState({
-      waveform: type,
-    });
-    synth.oscTypeChanged(type);
+    this.props.changeOSCType(type);
     this.closeMenu();
   }
 
-  showMenu() {
-    
+  showMenu() {    
     this.setState({ dropdownOpen: true }, () => {
       document.addEventListener('click', this.closeMenu);
     });
@@ -41,7 +35,7 @@ class WaveformOSC extends React.Component {
     return (
       <div>
         <button onClick ={() => this.showMenu()} class="dropdownButton">
-          <img src={require('./images/'+this.state.waveform+'.png')} />
+          <img src={require('./images/'+this.props.oscType+'.png')} />
         </button>
 
         {
@@ -64,4 +58,16 @@ class WaveformOSC extends React.Component {
   }
 }
 
-export default WaveformOSC;
+function mapStateToProps(state){
+  return {
+    oscType: state.oscType,
+  }
+}
+
+function mapDispatchToProps(dispatch){
+  return {
+    changeOSCType: (type) => dispatch(changeOSCType(type))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WaveformOSC);

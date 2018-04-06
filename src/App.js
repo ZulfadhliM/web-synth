@@ -3,6 +3,7 @@ import PlaySynthButton from './PlaySynthButton';
 import WaveformLFO from './WaveformLFO';
 import WaveformOSC from './WaveformOSC';
 import XYPad from './XYPad';
+import SynthEngine from './SynthEngine';
 import './index.css';
 
 
@@ -35,7 +36,7 @@ class App extends React.Component {
             <td><PlaySynthButton /></td>
           </tr>
         </table>
-        
+        <SynthEngine />
       </div>);
   }
 }

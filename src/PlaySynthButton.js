@@ -1,29 +1,39 @@
 import React from 'react';
 import './index.css';
-import * as synth from './SynthEngine'
+import store from './store'
+import { playSynth } from './actions'
+import { connect } from 'react-redux'
 
 class PlaySynthButton extends React.Component {
 
   constructor(props) {
   	super(props);
-  	this.state = {isSynthPlaying: false};
   	this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick() {
-  	this.setState(prevState => ({
-  		isSynthPlaying: !prevState.isSynthPlaying
-  	}));
-  	synth.buttonClicked();
+    this.props.playSynth(this.props.isSynthPlaying)
   }
 
   render() {
   	return(
   		<button class="customButton" onClick={this.handleClick}>
-  		  {this.state.isSynthPlaying ? 'Stop' : 'Play'}
+  		  {this.props.isSynthPlaying ? 'Stop' : 'Play'}
   		</button>
   		);
   }
 }
 
-export default PlaySynthButton;
+function mapStateToProps(state){
+  return {
+    isSynthPlaying: state.isSynthPlaying
+  }
+}
+
+function mapDispatchToProps(dispatch){
+  return {
+    playSynth: () => dispatch(playSynth())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlaySynthButton);

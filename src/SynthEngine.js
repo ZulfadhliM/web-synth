@@ -1,114 +1,115 @@
-var contextClass = (window.AudioContext || window.webkitAudioContext)
+import store from './store';
+import React from 'react';
+import { connect } from 'react-redux';
 
-if (contextClass) 
-{
-  // Web Audio API is available.
-  var context = new contextClass();
-  var analyser = context.createAnalyser();
-} 
-else 
-{
-  alert('Web Audio API is not supported in this browser.')
-}
+class SynthEngine extends React.Component {
+  constructor(props) {
+  	super(props);
+    this.state = {
+      context: [],
+      isStarted: false
+    };
+  }
 
-var isPlaying = false;
-var osc, lfo, lfoGain, oscGain, masterGain;
+  componentWillMount() {
+	var contextClass = (window.AudioContext || window.webkitAudioContext)
 
-// Default synthesiser settings
-var oscFreq = 110;
-var lfoFreq = 200;
-var masterGainValue = 0.03;
-var oscType = 'sine';
-var lfoType = 'sine';
-
-export function buttonClicked()
-{
-	if (isPlaying)
+	if (contextClass) 
 	{
-		stopSound();
-	}
-	else
+	  // Web Audio API is available.
+	  this.state.context = new contextClass();
+		
+
+	} 
+	else 
 	{
-		playSound();
-
+	  alert('Web Audio API is not supported in this browser.')
 	}
 
-}
+  }
 
-export function playSound()
-{
-	osc = context.createOscillator();
-	lfo = context.createOscillator();
-	oscGain = context.createGain();
-	lfoGain = context.createGain();
-	masterGain = context.createGain();
+  playSound() {
+  	if (this.props.isSynthPlaying) {
+		if (!this.state.isStarted){
+		this.osc = new OscillatorNode(this.state.context);
+		this.lfo = new OscillatorNode(this.state.context);
+		var oscGain = this.state.context.createGain();
+		var lfoGain = this.state.context.createGain();
+		var masterGain = this.state.context.createGain();
+		this.osc.connect(oscGain);
+		this.lfo.connect(lfoGain);
+		lfoGain.connect(oscGain.gain);
+		oscGain.connect(masterGain);
+		masterGain.gain.value = this.props.masterGainValue;
 
-	osc.type = oscType;
-	lfo.type = lfoType;
-	osc.frequency.setValueAtTime(oscFreq, context.currentTime);
-	lfo.frequency.setValueAtTime(lfoFreq, context.currentTime);
+		masterGain.connect(this.state.context.destination);
+		this.osc.start(0);
+		this.lfo.start(0);
+		this.state.isStarted = true;
+	    }
 
-	osc.connect(oscGain);
-	lfo.connect(lfoGain);
-	lfoGain.connect(oscGain.gain);
-	oscGain.connect(masterGain);
-
-	masterGain.gain.value = masterGainValue;
-
-	masterGain.connect(context.destination);
-	osc.start(0);
-	lfo.start(0);
-
-	isPlaying = true;
-}
-
-export function stopSound()
-{
-	osc.stop(0);
-	lfo.stop(0);
-
-	isPlaying = false;
-}
-
-export function volumeChanged(element)
-{
-	masterGainValue = element.value/100
-	masterGain.gain.value = masterGainValue;
-}
-
-export function oscTypeChanged(typeName)
-{
-	oscType = typeName;
-
-	if (isPlaying) {
-	osc.type = oscType;
 	}
-}
+	else {
+	  	if(typeof this.osc !== "undefined") {
+		  if (this.state.isStarted){
+		  this.osc.stop(0);
+		  this.lfo.stop(0);
+		  this.state.isStarted = false;
+		}
+  	    }
+  	}
+  }
 
-export function lfoTypeChanged(typeName)
-{
-	lfoType = typeName;
+  oscTypeChanged(typeName) {
 
-	if (isPlaying) {
-	lfo.type = lfoType;
+	if (typeof this.osc !== "undefined") {
+	  this.osc.type = typeName;
 	}
-}
+  }
 
-export function oscFrequencyChanged(value)
-{
-	oscFreq = value;
-
-	if (isPlaying) {
-	osc.frequency.setValueAtTime(oscFreq, context.currentTime);
+  lfoTypeChanged(typeName) {
+	if (typeof this.osc !== "undefined") {
+	  this.lfo.type = typeName;
 	}
-}
+  }
 
-export function lfoFrequencyChanged(value)
-{
-	lfoFreq = value;
-
-	if (isPlaying) {
-	lfo.frequency.setValueAtTime(lfoFreq, context.currentTime);
+  oscFrequencyChanged(value) {
+	if (typeof this.osc !== "undefined") {
+	  this.osc.frequency.setValueAtTime(value, this.state.context.currentTime);
 	}
+  }
+
+  lfoFrequencyChanged(value) {
+	if (typeof this.osc !== "undefined") {
+	  this.lfo.frequency.setValueAtTime(value, this.state.context.currentTime);
+	}
+  }
+
+  render() {
+  	if(typeof this.osc !== "undefined") {
+  		this.osc.onended = function() {
+  			console.log("hey")
+  		}
+  	}
+  	this.playSound(this.props.isSynthPlaying);
+  	this.oscTypeChanged(this.props.oscType);
+  	this.lfoTypeChanged(this.props.lfoType);
+  	this.oscFrequencyChanged(this.props.oscFreq);
+  	this.lfoFrequencyChanged(this.props.lfoFreq);
+
+  	return (null)
+  }
 }
 
+function mapStateToProps(state){
+  return {
+    isSynthPlaying: state.isSynthPlaying,
+    oscFreq: state.oscFreq,
+    lfoFreq: state.lfoFreq,
+    masterGainValue: state.masterGainValue,
+    oscType: state.oscType,
+    lfoType: state.lfoType
+  }
+}
+
+export default connect(mapStateToProps)(SynthEngine);

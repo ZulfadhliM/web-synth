@@ -1,31 +1,26 @@
 import React from 'react';
-import * as synth from './SynthEngine';
+import { connect } from 'react-redux';
+import { changeLFOType } from './actions';
 import './index.css';
 
 
 class WaveformLFO extends React.Component {
   constructor(props) {
     super(props);
-
     this.showMenu = this.showMenu.bind(this);
     this.closeMenu = this.closeMenu.bind(this);
     this.waveformClicked = this.waveformClicked.bind(this);
     this.state = {
       dropdownOpen: false,
-      waveform: 'sine'
     };
   }
 
   waveformClicked(type) {
-    this.setState({
-      waveform: type,
-    });
-    synth.lfoTypeChanged(type);
+    this.props.changeLFOType(type);
     this.closeMenu();
   }
 
-  showMenu() {
-    
+  showMenu() {    
     this.setState({ dropdownOpen: true }, () => {
       document.addEventListener('click', this.closeMenu);
     });
@@ -41,7 +36,7 @@ class WaveformLFO extends React.Component {
     return (
       <div>
         <button onClick ={() => this.showMenu()} class="dropdownButton">
-          <img src={require('./images/'+this.state.waveform+'.png')} />
+          <img src={require('./images/'+this.props.lfoType+'.png')} />
         </button>
 
         {
@@ -64,4 +59,17 @@ class WaveformLFO extends React.Component {
   }
 }
 
-export default WaveformLFO;
+function mapStateToProps(state){
+  return {
+    lfoType: state.lfoType
+  }
+}
+
+function mapDispatchToProps(dispatch){
+  return {
+    changeLFOType: (type) => dispatch(changeLFOType(type))
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(WaveformLFO);

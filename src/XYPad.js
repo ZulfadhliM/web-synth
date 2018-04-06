@@ -1,5 +1,6 @@
 import React from 'react';
-import * as synth from './SynthEngine';
+import { connect } from 'react-redux';
+import { changeLFOFreq, changeOSCFreq } from './actions';
 import './index.css';
 
 class XYPad extends React.Component {
@@ -26,7 +27,6 @@ class XYPad extends React.Component {
         this.ctx = this.refs.canvas.getContext('2d');
         this.ctx.fillStyle = this.props.color;
         this.ctx.fillRect(0,0, this.props.width, this.props.height);
-
 
         this.drawLabel();
 
@@ -117,8 +117,8 @@ class XYPad extends React.Component {
         (this.state.lfoFreqRange[1] - this.state.lfoFreqRange[0]) 
         + this.state.lfoFreqRange[0];
 
-      synth.oscFrequencyChanged(oscFreq);
-      synth.lfoFrequencyChanged(lfoFreq);
+      this.props.changeLFOFreq(lfoFreq);
+      this.props.changeOSCFreq(oscFreq);
     }
 
     render() {
@@ -130,5 +130,18 @@ class XYPad extends React.Component {
     }
 }
 
+function mapStateToProps(state){
+  return {
+    lfoFreq: state.lfoFreq,
+    oscFreq: state.oscFreq
+  }
+}
 
-export default XYPad;
+function mapDispatchToProps(dispatch){
+  return {
+    changeLFOFreq: (value) => dispatch(changeLFOFreq(value)),
+    changeOSCFreq: (value) => dispatch(changeOSCFreq(value)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(XYPad);
