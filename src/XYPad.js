@@ -11,7 +11,7 @@ class XYPad extends React.Component {
       prevCirclePos: [this.props.width/2, this.props.height/2],
       startMove: false,
       oscFreqRange: [50, 5000],
-      lfoFreqRange: [200, 10]
+      lfoFreqRange: [20, 10]
     };
     this.handleMouseEvent = this.handleMouseEvent.bind(this);
     this.handleMouseDown = this.handleMouseDown.bind(this);

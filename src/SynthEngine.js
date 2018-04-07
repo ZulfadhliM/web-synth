@@ -18,8 +18,6 @@ class SynthEngine extends React.Component {
 	{
 	  // Web Audio API is available.
 	  this.state.context = new contextClass();
-		
-
 	} 
 	else 
 	{
