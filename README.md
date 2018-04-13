@@ -14,7 +14,9 @@ This is a basic synthesiser with an LFO modulation built using React and Redux f
 npm start
 ```
 
-This assumes that you are using npm as your package manager.
+This assumes that you are using npm as your package manager. The image below shows how it would look like on your browser:
+
+![MIR Result](https://github.com/ZulfadhliM/web-synth/blob/master/screenshots/example.png)
 
 ## Built With
 
