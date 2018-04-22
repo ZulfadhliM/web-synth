@@ -26,6 +26,16 @@ p {
 	text-align: left;
 }
 
+.column {
+  float: left;
+  width: 50%;
+  margin-bottom: 10px;
+}
+
+.buttonArea {
+  width: 50%;
+  float: right;
+}
 .customButton {
     background-color: #CC0720;
     border: none;

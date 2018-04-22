@@ -11,31 +11,15 @@ class App extends React.Component {
   render() {
     return (
       <div className = "App">
-        <table align = "center" width = "100%">
-          <tr>
-            <td><h1>OSCILLATOR</h1></td>
-          </tr>
-          <tr>
-            <td><h2>Wave</h2></td>
-            <td><WaveformOSC /></td>
-          </tr>
-          
-          <tr>
-            <td><h1>LFO</h1></td>
-          </tr>
-          <tr>
-            <td><h2>Wave</h2></td>
-            <td><WaveformLFO /></td>
-          </tr>
-          <tr>
-            <td><h2>Frequency</h2></td>
-            <td><XYPad color="black" width="200" height="200" /></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td><PlaySynthButton /></td>
-          </tr>
-        </table>
+            <h1>OSCILLATOR</h1>
+            <div className="column"><h2>Wave</h2></div>
+            <div className="column"><WaveformOSC /></div>
+            <div><h1>LFO</h1></div>
+            <div className="column"><h2>Wave</h2></div>
+            <div className="column"><WaveformLFO /></div>
+            <div className="column"><h2>Frequency</h2></div>
+            <div className="column"><XYPad color="black" width="200" height="200" /></div>
+            <div className="buttonArea"><PlaySynthButton /></div>
         <SynthEngine />
       </div>);
   }
